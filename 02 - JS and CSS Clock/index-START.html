@@ -9,7 +9,9 @@
 
     <div class="clock">
       <div class="clock-face">
-        <div class="hand hour-hand"></div>
+        <div class="hand hour-hand">
+        	<div class="hour-hand-visible"></div>
+        </div>
         <div class="hand min-hand"></div>
         <div class="hand second-hand"></div>
       </div>
@@ -62,13 +64,53 @@
       background: black;
       position: absolute;
       top: 50%;
+      transform-origin: 100%;
+      transition: 0.2s;
+    }
+
+    .hour-hand {
+    	background: none;
+    }
+
+    .hour-hand-visible {
+    	background: black;
+    	width: 65%;
+    	height: 6px;
+    	position: absolute;
+    	right: 0px;
+    	/*transform: translateX(100%);*/
+    }
+
+    .second-hand {
+    	height: 3px;
     }
 
   </style>
 
   <script>
+  	var date = new Date();
+  	var hourHand = document.querySelector('.hour-hand');
+  	var minHand = document.querySelector('.min-hand');
+  	var secondHand = document.querySelector('.second-hand');
 
+  	function setDate(){
+  		date = new Date();
+  		console.log('date set');
+  		var hourAngle = 90 + 360 / 12 * (date.getHours() % 12);
+  		var minAngle = 90 + 360 / 60 * date.getMinutes();
+  		var secondAngle = 90 + 360 / 60 * date.getSeconds();
 
+  		hourHand.style.transform = `rotate(${hourAngle}deg)`;
+  		minHand.style.transform = `rotate(${minAngle}deg)`;
+  		secondHand.style.transform = `rotate(${secondAngle}deg)`;
+
+  		// debugger;
+
+  	}
+
+  	setDate();
+
+  	setInterval(setDate, 1000);
   </script>
 </body>
 </html>
